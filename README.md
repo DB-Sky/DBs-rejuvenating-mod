@@ -1,4 +1,5 @@
-DB's Rejuvenating Settings v1.3.1 — a mod for Pokémon Rejuvenation V14 (tested on 14.0.24)
+DB's Rejuvenating Settings — a mod for Pokémon Rejuvenation V14 (partially tested on 14.0.24)
+
 
 What it does:
 - A second starter: Eternal Flower Floette.
@@ -24,11 +25,15 @@ What it does:
 
 Install: copy the "patch" folder into your game folder (merge). Full details are in
 DB_Rejuvenating_README.txt. 
+
 Due to licenses issue I won't be able to provide the true sprites inside the graphics folder, you can edit it however you want but don't missed with the files name.
+
+
 
 DISCLAIMER: All the code of this mod was written by Claude, an AI made by Anthropic.
 The idea, the rules, the balancing choices and the testing are by me DB (Draskbright).
 It is a fan-made, non-commercial mod, not affiliated with the Rejuvenation team.
+
 
 CREDITS
 - Pokémon Rejuvenation: Janichroma (lead developer), Zumi and the Rejuvenation team
