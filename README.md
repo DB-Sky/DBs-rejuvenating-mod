@@ -26,7 +26,7 @@ What it does:
 Install: copy the "patch" folder into your game folder (merge). Full details are in
 DB_Rejuvenating_README.txt. 
 
-# Due to licenses issue I won't be able to provide the true sprites inside the graphics folder, you can edit it however you want but don't missed with the files name. (see below for picture matching)
+# Due to licenses issue I won't be able to provide the true sprites inside the graphics folder, you can edit it however you want but don't mess with the files name. (see below for picture matching)
 
 
 
