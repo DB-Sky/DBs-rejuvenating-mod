@@ -26,7 +26,7 @@ What it does:
 Install: copy the "patch" folder into your game folder (merge). Full details are in
 DB_Rejuvenating_README.txt. 
 
-# Due to licenses issue I won't be able to provide the true sprites inside the graphics folder, you can edit it however you want but don't missed with the files name.
+# Due to licenses issue I won't be able to provide the true sprites inside the graphics folder, you can edit it however you want but don't missed with the files name. (see below for picture matching)
 
 
 
@@ -44,3 +44,9 @@ CREDITS
 - Guardian Trial teams: Smogon sample teams, VGC teams by Alex Dellapasqua (Victory
   Road), Rafe Osborne and DevonCorp, via pokepast.es. The exact source of each team
   is listed in DB_Rejuvenating_Data_Guardians.rb.
+
+
+PICTURE MATCHING
+- icon670.png is a full sprite of every floette and eternalk floette + eternal's mega
+- trainerXXXX.png is a caracter you can choose as you self at the beginning
+  they respectively are in order : Aevis, Aevia, Ariana, Axel, Alain, Aero and if you know you know :)
