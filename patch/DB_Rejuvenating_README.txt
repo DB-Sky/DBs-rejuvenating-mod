@@ -1,9 +1,9 @@
-DB's Rejuvenating Settings v1.3.1 — mod for Pokémon Rejuvenation V14 (checked against 14.0.24)
+DB's Rejuvenating Settings v1.3.3 — mod for Pokémon Rejuvenation V14 (checked against 14.0.24)
 ==============================================================================================
 *** STABLE RELEASE — READY TO SHARE ***
 Share only the "patch" folder (see INSTALL). Tested against the game's own data:
-1755 automated checks + a real save. Balance checked against the base game's own
-pacing of legendaries (see LEGENDARY PACING).
+1789 automated checks + a real save. Legendaries unlock step by step, by power
+(see LEGENDARY PACING).
 (formerly "DB's Rejuvenating", and before that "DB's Rejuthingy Patch")
 
 The full rules are also explained in game: Pause menu > DB Rejuv Settings > Guide.
@@ -14,6 +14,8 @@ IN-GAME MENU (Pause > DB Rejuv Settings)
                    Bonds & team budget
   Items >          Candy shop | Mega/Giga Stones | Z-Crystals | Form items
   Trials >         Guardian Trials | Ultimate Trial | Trial record
+  Hidden stats     values the game keeps hidden (read only): Karma, relationships,
+                   Grand Dream City reputation, exact friendship, Hidden Power type
   My progress      your numbers right now: chapter, level cap, tickets, candy prices,
                    extra enemy battle items
 
@@ -54,13 +56,18 @@ MISSED LEGENDARIES (Pause > DB Rejuv Settings > Pokémon > Missed legendaries)
   - Never met (or before 1.2.4): available only after 18 badges + Virtual League champion.
   - Caught normally in the game: never offered (no duplicates).
 
-LEGENDARY PACING (v1.3.0, CONFIG min_badges_*)
-  Each legendary from this mod also needs a minimum number of badges, matched to the
-  base game (its first mythical, Meltan, comes around 6 badges; its first "box"
-  legendary, Necrozma, in Chapter 11; most of its legendaries at 13+ badges):
-    Restricted legendaries + Arceus   11 badges
-    other legendaries/mythicals  6 badges
-    Ultra Beasts / Paradox    8 badges
+LEGENDARY PACING (v1.3.3, CONFIG min_badges_by_power / _restricted / _arceus)
+  No legendary from this mod can be claimed before a minimum number of badges,
+  based on its POWER (total base stats), so the weaker ones come first and the
+  strong ones later (no legendary rush in the middle of the game):
+    under 570 (Loyal Three, Kubfu, Poipole)                 4 badges
+    570-579 (Tapus, Ruinous quartet, Ultra Beasts...)       6 badges
+    580-599 (Swords of Justice, Regieleki/Regidrago...)     7 badges
+    600-669 (Mew, Darkrai, Jirachi, Heatran...)             8 badges
+    670+ (Regigigas) and all Restricted legendaries        10 badges
+    Arceus                                                 12 badges
+  This is only a MINIMUM: some legendaries ask for more (e.g. Koraidon/Miraidon 11).
+  The condition shown in game is always the full requirement (minimum included).
   Missed legendaries (given by the game itself) keep their own rules.
 
 TICKETS
@@ -136,21 +143,22 @@ ENEMY ITEMS (Normal mode only; off in Story and with "noitems")
 
 SPECIAL UNLOCKS (found in the game files)
   Rayquaza  sculptor quest (Goldenleaf Town artist -> Sapphire Museum, Kristiline Town),
-            pick the Rayquaza statue; other statue: battle both Kyogre and Groudon
-            (+ 15 badges). Then its Guardian Trial.
-  Zacian    beat Princess Alice (+ 12 badges; or 17 badges if fought before installing).
-  Zamazenta beat Prince Allen (+ 12 badges; or 17 badges if fought before installing).
-  Calyrex   beat Flora and Florin (+ 12 badges; or 14 badges if fought before installing).
-  Koraidon  own an Ancient Paradox Pokémon (+ 15 badges).
-  Miraidon  own a Future Paradox Pokémon (+ 15 badges).
-            (Restricted legendaries: never earlier than in 1.2.4; Guardian Trial required.)
-  Magearna  beat Saki at the Axis Factory gym (or 16 badges).
+            pick the Rayquaza statue (+ 10 badges); other statue: battle both Kyogre
+            and Groudon (+ 11 badges). Then its Guardian Trial.
+  Zacian    beat Princess Alice (+ 10 badges; or 13 badges if fought before installing).
+  Zamazenta beat Prince Allen (+ 10 badges; or 13 badges if fought before installing).
+  Calyrex   beat Flora and Florin (+ 10 badges; or 11 badges if fought before installing).
+  Koraidon  own an Ancient Paradox Pokémon (+ 11 badges).
+  Miraidon  own a Future Paradox Pokémon (+ 11 badges).
+            (Restricted legendaries: Guardian Trial required.)
+  Magearna  beat Saki at the Axis Factory gym (+ 8 badges), or 12 badges.
+  Others    Jirachi, Zeraora, Zarude, Hoopa 8 badges; Ogerpon 7; Kubfu 4.
   Diancie   given by the story (Karrina's bag, Game Show). Diancite: own Diancie, beat
             Karrina, Diancie Loyal.
 
 INSTALL
   Copy the "patch" folder into the game folder (merge).
-  Result: <game>\patch\Mods\DB_Rejuvenating_*.rb (11 files)
+  Result: <game>\patch\Mods\DB_Rejuvenating_*.rb (12 files)
           <game>\patch\Graphics\Icons\Pokemon\icon670.png
           <game>\patch\Graphics\Characters\trainer9101.png ... trainer9107.png
   UPGRADING FROM 1.2.x ("DB's Rejuvenating"): just copy the new files over the old ones.
@@ -171,6 +179,7 @@ FILES
   Mods\DB_Rejuvenating_Mod7_Menu.rb        Pause menu, groups, My progress, Bonds, Trial record, Guide
   Mods\DB_Rejuvenating_Mod8_Bond.rb        bond, team budget, obedience, enemy items, boss kit
   Mods\DB_Rejuvenating_Mod9_Trials.rb      Guardian, Chapter and Ultimate Trials
+  Mods\DB_Rejuvenating_Mod10_HiddenStats.rb Hidden stats menu (read only)
 
 CONFIG
   Edit the CONFIG block at the top of DB_Rejuvenating_Core.rb, then restart the game.
@@ -192,7 +201,22 @@ LOG
   each player's own computer: do NOT include it (or DB_Rejuvenating_trials.dat, or any
   save) when sharing the mod. Share only the "patch" folder.
 
+HIDDEN STATS (Pause > DB Rejuv Settings > Hidden stats) — read only, never changes anything
+  Karma (game variable 129), relationship points with ~50 characters (only non-zero
+  ones shown), Grand Dream City reputation, Espurr/Growlithe sidequest friendship,
+  and for each party Pokémon: exact friendship (0-255) and Hidden Power type (in
+  Rejuvenation it comes from a hidden ID, not from IVs). IVs/EVs are already on the
+  game's Summary screen, so they are not repeated.
+
 CHANGELOG
+  1.3.3  Legendaries unlock step by step by POWER: 4 / 6 / 7 / 8 / 10 badges
+         (under 570 / 570 / 580 / 600 / 670+ stats), Restricted 10, Arceus 12.
+         Weaker ones early, strong ones later: no legendary rush mid-game.
+  1.3.2  Badge minimums lowered: 4 / 5 / 8 (was 6 / 8 / 11); story-based unlocks
+         3-4 badges earlier too (Koraidon/Miraidon 11, Zacian/Zamazenta/Calyrex 8...).
+         New "Hidden stats" menu. Unlock conditions show ONE badge number (the real
+         requirement) instead of two ("15 badges AND 11 badges"); duplicate trainer
+         names removed from conditions; clearer "one of (...)" lists.
   1.3.1  Texts proofread (enemy "battle items", Eternal Floette counts for enemy
          items, menu paths). Arceus (720 total stats) costs 3 points (2 when Bonded) and needs 11 badges,
          like a Restricted legendary (no extra trial). Red/Blue Orb, Rusted
