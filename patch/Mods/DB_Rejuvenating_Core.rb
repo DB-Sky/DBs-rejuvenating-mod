@@ -1,7 +1,7 @@
 # =============================================================================
 # DB's Rejuvenating Settings — NOYAU (Core)  v1.3.1 (version stable, prête à partager)
 # (anciennement "DB's Rejuthingy Patch" puis "DB's Rejuvenating" :
-#  0.1.0 → 1.0.0 → 1.1.0 → 1.1.1 → 1.1.2 → 1.2.0 → 1.2.1 → 1.2.2 → 1.2.3 → 1.2.4 → 1.2.5 → 1.3.0 → 1.3.1)
+#  0.1.0 → 1.0.0 → 1.1.0 → 1.1.1 → 1.1.2 → 1.2.0 → 1.2.1 → 1.2.2 → 1.2.3 → 1.2.4 → 1.2.5 → 1.3.0 → 1.3.1 → 1.3.2 → 1.3.3)
 # Les noms de fichiers (DB_Rejuvenating_*.rb) et la clé de sauvegarde ne changent pas.
 # Cible : Pokémon Rejuvenation V14 (vérifié contre GAME_VERSION '14.0.24')
 #
@@ -23,7 +23,7 @@ module DBRejuvenating
   setc(:PATCH_NAME, "DB's Rejuvenating Settings")
   # Anciens noms : les Pokémon donnés par une version précédente restent reconnus
   setc(:OLD_PATCH_NAMES, ["DB's Rejuvenating", "DB's Rejuthingy"])
-  setc(:PATCH_VERSION, "1.3.1")
+  setc(:PATCH_VERSION, "1.3.3")
   setc(:RELEASE_STATUS, "stable")   # 1.3.0 : première version stable, prête à être partagée
   setc(:BONDED_TIER, 4)   # palier "Bonded" (v1.2.5 : 5 paliers, Devoted ajouté en 3)
   setc(:TESTED_GAME_VERSION, "14.0.24")
@@ -47,12 +47,15 @@ module DBRejuvenating
     # --- Module 2 : Pokémon ---
     special_pokemon:            true,   # 2e starter : Floette Fleur Éternelle, disponible dès le starter
     progression_pokemon:        true,   # légendaires/fabuleux/UC/paradoxes introuvables, débloqués par la progression
-    # Rythme (v1.3.0) : nombre MINIMUM de badges avant qu'un légendaire du mod soit
-    # réclamable, calé sur le jeu de base (1er légendaire "boîte" du jeu : Necrozma,
-    # chapitre 11 ; 1er fabuleux : Meltan, ~6 badges). S'ajoute aux conditions.
-    min_badges_restricted:      11,     # légendaires Restreints (Mewtwo, Kyogre, Zacian...)
-    min_badges_legendary:       6,      # autres légendaires et fabuleux
-    min_badges_ub_paradox:      8,      # Ultra-Chimères et Paradoxes
+    # Rythme : nombre MINIMUM de badges avant qu'un légendaire du mod soit réclamable.
+    # v1.3.0 : par catégorie, calé sur le jeu (11 / 6 / 8). v1.3.2 : abaissé (8 / 4 / 5).
+    # v1.3.3 : ESCALIER selon la PUISSANCE (total des stats de base), à la demande du
+    # joueur : les faibles tôt, les forts plus tard, pour que le milieu du jeu ne
+    # devienne pas une course aux légendaires. Toujours plus tôt qu'en 1.3.0 pour les
+    # Restreints (10 au lieu de 11).
+    min_badges_by_power:        [[670, 10], [600, 8], [580, 7], [570, 6], [0, 4]],   # [stats >=, badges]
+    min_badges_restricted:      10,     # légendaires Restreints (Mewtwo, Kyogre, Zacian...), quelle que soit leur forme de base
+    min_badges_arceus:          12,     # Arceus (720 de stats, le plus fort)
     gift_signature_moves:       true,   # Floette : Light of Ruin / Rayquaza : Dragon Ascent (requis pour Méga-Rayquaza)
     tickets:                    true,   # chaque légendaire réclamé coûte 1 ticket
 
@@ -73,6 +76,9 @@ module DBRejuvenating
     enemy_items:                true,   # mode Normal : soins supplémentaires aux dresseurs adverses
     boss_kit:                   true,   # mode Normal : un chef (Champion d'Arène, Conseil, Ligue) SANS objet de
                                         # soin dans le jeu de base reçoit 2 soins + 2 objets X (Vitesse + Attaque/Spéciale)
+
+    # --- Module 10 : Statistiques cachées (lecture seule) ---
+    hidden_stats:               true,   # menu "Hidden stats" : Karma, relations, réputation, bonheur exact...
 
     # --- Module 9 : Épreuves ---
     guardian_trials:            true,   # épreuve du Gardien pour chaque légendaire "Restreint"
@@ -482,27 +488,58 @@ module DBRejuvenating
 
   setc(:TIER_NAMES, ["Wild", "Trusting", "Loyal", "Devoted", "Bonded"])   # v1.2.5 : + Devoted
 
+  # v1.3.2 : textes de conditions plus lisibles (pas de doublons de noms, listes
+  # "one of: ...", un seul renvoi vers le menu des liens à la fin)
   def self.condText(c)
     case c[0]
       when :start   then return _INTL("available now")
-      when :seen    then return _INTL("meet {1} in a battle (for example a trainer or boss using it)", monName(c[1]))
+      when :seen    then return _INTL("meet {1} in a battle (wild, trainer or boss)", monName(c[1]))
       when :own     then return _INTL("own {1}", monName(c[1]))
       when :own_all then return _INTL("own {1}", c[1].map { |s| monName(s) }.join(" + "))
-      when :own_any then return _INTL("own {1}", c[1].map { |s| monName(s) }.join(" or "))
+      when :own_any
+        return _INTL("own {1}", monName(c[1][0])) if c[1].length == 1
+        return _INTL("own one of ({1})", c[1].map { |s| monName(s) }.join(", "))
       when :badges  then return _INTL("own {1} badges", c[1])
       when :beat    then return _INTL("defeat {1}", c[2])
       when :var_ge, :var_eq then return _INTL("progress further in the story")
       when :task    then return _INTL(c[1])
       when :missed  then return missedText(c[1])
-      when :bond    then return _INTL("{1} reaches the {2} bond tier (see Pokémon > Bonds & team budget)", monName(c[1]), TIER_NAMES[c[2].to_i] || "?")
-      when :all     then return c[1].map { |x| condText(x) }.join(_INTL(" AND "))
-      when :any     then return "(" + c[1].map { |x| condText(x) }.join(_INTL(" or ")) + ")"
+      when :bond    then return _INTL("{1} at the {2} bond tier", monName(c[1]), TIER_NAMES[c[2].to_i] || "?")
+      when :all
+        # On aplatit les "ET" imbriqués pour pouvoir retirer les doublons
+        parts = c[1].flat_map { |x| x[0] == :all ? x[1] : [x] }
+        # "own X" est inutile quand "X au palier ..." est déjà demandé (il faut le posséder)
+        bondSp = parts.select { |x| x[0] == :bond }.map { |x| x[1] }
+        anyBond = parts.select { |x| x[0] == :any && x[1].all? { |y| y[0] == :bond } }.map { |x| x[1].map { |y| y[1] } }.flatten
+        parts = parts.reject { |x| (x[0] == :own && bondSp.include?(x[1])) ||
+                                   (x[0] == :own_all && (x[1] - bondSp).empty?) ||
+                                   (x[0] == :own_any && !anyBond.empty? && (x[1] - anyBond).empty?) }
+        return parts.map { |x| condText(x) }.join(_INTL(" AND "))
+      when :any
+        # Plusieurs dresseurs peuvent porter le même nom (combats différents) : un seul texte
+        if !c[1].empty? && c[1].all? { |y| y[0] == :bond } && c[1].map { |y| y[2] }.uniq.length == 1
+          names = c[1].map { |y| monName(y[1]) }.uniq
+          return condText(c[1][0]) if names.length == 1
+          return _INTL("one of {1} at the {2} bond tier", names.join(", "), TIER_NAMES[c[1][0][2].to_i] || "?")
+        end
+        texts = c[1].map { |x| condText(x) }.uniq
+        return texts[0] if texts.length == 1
+        return "(" + texts.join(_INTL(" or ")) + ")"
     end
     return "?"
   end
 
+  def self.condHasBond?(c)
+    return false unless c.is_a?(Array)
+    return true if c[0] == :bond
+    return c[1].is_a?(Array) && c[1].any? { |x| x.is_a?(Array) && condHasBond?(x) } if c[0] == :all || c[0] == :any
+    return false
+  end
+
   def self.hint(conds)
-    return conds.map { |c| condText(c) }.join(_INTL("\nOR\n"))
+    txt = conds.map { |c| condText(c) }.join(_INTL("\nOR\n"))
+    txt += _INTL("\n(Bond tiers: see Pokémon > Bonds & team budget.)") if conds.any? { |c| condHasBond?(c) }
+    return txt
   end
 
   # ---------------------------------------------------------------------------

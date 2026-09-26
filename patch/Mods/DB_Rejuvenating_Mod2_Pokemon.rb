@@ -42,16 +42,16 @@ if defined?(DBRejuvenating) && (DBRejuvenating.enabled?(:special_pokemon) || DBR
         [:LATIAS,     [[:seen, :LATIAS], [:own, :LATIOS]]],
         [:KYOGRE,     [[:seen, :KYOGRE]]],                                   # boss BOSSKYOGRE
         [:GROUDON,    [[:seen, :GROUDON]]],                                  # boss BOSSGROUDON
-        [:JIRACHI,    [[:badges, 8]]],
+        [:JIRACHI,    [[:badges, 5]]],
         # Rayquaza : aucun combat en V14. Lien trouvé dans les fichiers : la quête du
         # sculpteur (artiste de Goldenleaf Town → Directeur du Sapphire Museum,
         # Kristiline Town). $game_variables[48] = 4 : quête finie ; [570] = 1 : statue
         # de Rayquaza choisie (2 = Groudon, 3 = Kyogre). Autre statue choisie →
         # v1.2.5 : Rayquaza apaise le combat de Kyogre et Groudon → les avoir tous
-        # deux rencontrés en combat, avec au moins 15 badges (jamais plus tôt qu'avant).
+        # deux rencontrés en combat, avec au moins 11 badges (v1.3.2 : 15 -> 11).
         [:RAYQUAZA,   [[:task, "finish the sculptor quest (Goldenleaf Town artist, then Sapphire Museum in Kristiline Town) and pick the Rayquaza statue",
                         [[:var_ge, 48, 4], [:var_eq, 570, 1]]],
-                       [:all, [[:seen, :KYOGRE], [:seen, :GROUDON], [:badges, 15]]]],
+                       [:all, [[:seen, :KYOGRE], [:seen, :GROUDON], [:badges, 11]]]],
                       [:DRAGONASCENT]],
         # --- Sinnoh ---
         [:DIALGA,     [[:seen, :DIALGA]]],                                   # boss Tiempa
@@ -75,9 +75,9 @@ if defined?(DBRejuvenating) && (DBRejuvenating.enabled?(:special_pokemon) || DBR
         [:KYUREM,     [[:seen, :KYUREM]]],                                   # Angie
         # --- Kalos ---
         [:XERNEAS,    [[:seen, :XERNEAS]]],
-        [:HOOPA,      [[:badges, 10]]],
+        [:HOOPA,      [[:badges, 7]]],
         [:VOLCANION,  [[:seen, :VOLCANION]]],
-        [:MAGEARNA,   [[:beat, :LEADER_SAKI2, "Saki"], [:badges, 16]]],   # Pokémon-machine → badge de l'Axis Factory (Map111)
+        [:MAGEARNA,   [[:beat, :LEADER_SAKI2, "Saki"], [:badges, 12]]],   # Pokémon-machine → badge de l'Axis Factory (Map111)
         # --- Alola ---
         [:TAPUKOKO,   [[:seen, :TAPUKOKO]]],
         [:TAPULELE,   [[:own, :TAPUKOKO]]],
@@ -85,7 +85,7 @@ if defined?(DBRejuvenating) && (DBRejuvenating.enabled?(:special_pokemon) || DBR
         [:TAPUFINI,   [[:own, :TAPUKOKO]]],
         [:COSMOG,     [[:own, :NECROZMA]]],                                  # évolue en Solgaleo/Lunala
         [:MARSHADOW,  [[:seen, :MARSHADOW]]],
-        [:ZERAORA,    [[:badges, 8]]],
+        [:ZERAORA,    [[:badges, 5]]],
         [:BUZZWOLE,   [[:own, :NIHILEGO]]],
         [:PHEROMOSA,  [[:seen, :PHEROMOSA], [:own, :NIHILEGO]]],
         [:XURKITREE,  [[:seen, :XURKITREE]]],
@@ -97,20 +97,20 @@ if defined?(DBRejuvenating) && (DBRejuvenating.enabled?(:special_pokemon) || DBR
         [:BLACEPHALON,[[:seen, :BLACEPHALON]]],
         # --- Galar ---
         # v1.2.5 : chevaliers protecteurs de la royauté → battre la Princesse Alice /
-        # le Prince Allen (Angelica's WonderTower). Minimum 12 badges (comme avant).
-        # Secours à 17 badges : combat fait avant l'installation du mod (non enregistré).
-        [:ZACIAN,     [[:all, [[:beat, :LEADER_ALICE, "Princess Alice"], [:badges, 12]]], [:badges, 17]]],
-        [:ZAMAZENTA,  [[:all, [[:any, [[:beat, :LEADER_ALLEN, "Prince Allen"], [:beat, :LEADER_ALLEN2, "Allen"]]], [:badges, 12]]], [:badges, 17]]],
+        # le Prince Allen (Angelica's WonderTower). Minimum 8 badges (v1.3.2 ; 12 avant).
+        # Secours à 13 badges (17 avant) : combat fait avant l'installation du mod (non enregistré).
+        [:ZACIAN,     [[:all, [[:beat, :LEADER_ALICE, "Princess Alice"], [:badges, 8]]], [:badges, 13]]],
+        [:ZAMAZENTA,  [[:all, [[:any, [[:beat, :LEADER_ALLEN, "Prince Allen"], [:beat, :LEADER_ALLEN2, "Allen"]]], [:badges, 8]]], [:badges, 13]]],
         [:ETERNATUS,  [[:seen, :ETERNATUS]]],                                # Kaina
-        [:KUBFU,      [[:badges, 6]]],
-        [:ZARUDE,     [[:badges, 8]]],
+        [:KUBFU,      [[:badges, 4]]],
+        [:ZARUDE,     [[:badges, 5]]],
         [:REGIELEKI,  [[:seen, :REGIELEKI]]],
         [:REGIDRAGO,  [[:seen, :REGIDRAGO]]],
         # v1.2.5 : roi des récoltes → battre Flora et Florin (champions Plante).
-        # Minimum 12 badges (comme avant). Secours à 14 badges (combat non enregistré).
+        # Minimum 8 badges (v1.3.2 ; 12 avant). Secours à 11 badges (14 avant) (combat non enregistré).
         [:CALYREX,    [[:all, [[:any, [[:beat, :LEADER_FLORA, "Flora"], [:beat, :LEADER_RYLAND, "Flora"]]],
                                [:any, [[:beat, :LEADER_FLORIN, "Florin"], [:beat, :LEADER_FLORIN2, "Florin"]]],
-                               [:badges, 12]]], [:badges, 14]]],
+                               [:badges, 8]]], [:badges, 11]]],
         [:GLASTRIER,  [[:own, :CALYREX]]],
         [:SPECTRIER,  [[:own, :CALYREX]]],
         # --- Hisui / Paldea ---
@@ -119,18 +119,18 @@ if defined?(DBRejuvenating) && (DBRejuvenating.enabled?(:special_pokemon) || DBR
         [:TINGLU,     [[:seen, :TINGLU]]],
         [:CHIYU,      [[:seen, :CHIYU]]],
         # v1.2.5 : Koraidon = Paradoxe du passé, Miraidon = Paradoxe du futur →
-        # posséder un Paradoxe de la même époque. Minimum 15 badges (comme avant).
+        # posséder un Paradoxe de la même époque. Minimum 11 badges (v1.3.2 ; 15 avant).
         [:KORAIDON,   [[:all, [[:own_any, [:GREATTUSK, :SCREAMTAIL, :BRUTEBONNET, :FLUTTERMANE, :SLITHERWING,
                                            :SANDYSHOCKS, :ROARINGMOON, :WALKINGWAKE, :GOUGINGFIRE, :RAGINGBOLT]],
-                               [:badges, 15]]]]],
+                               [:badges, 11]]]]],
         [:MIRAIDON,   [[:all, [[:own_any, [:IRONTREADS, :IRONBUNDLE, :IRONHANDS, :IRONJUGULIS, :IRONMOTH,
                                            :IRONTHORNS, :IRONVALIANT, :IRONLEAVES, :IRONBOULDER, :IRONCROWN]],
-                               [:badges, 15]]]]],
+                               [:badges, 11]]]]],
         [:PECHARUNT,  [[:seen, :PECHARUNT]]],                                # Shayda
         [:OKIDOGI,    [[:seen, :PECHARUNT]]],
         [:MUNKIDORI,  [[:seen, :PECHARUNT]]],
         [:FEZANDIPITI,[[:seen, :PECHARUNT]]],
-        [:OGERPON,    [[:badges, 10]]],
+        [:OGERPON,    [[:badges, 7]]],
         [:TERAPAGOS,  [[:seen, :TERAPAGOS]]],                                # Eizen
         # --- Paradoxes introuvables ---
         [:GREATTUSK,  [[:seen, :GREATTUSK]]],
@@ -165,19 +165,35 @@ if defined?(DBRejuvenating) && (DBRejuvenating.enabled?(:special_pokemon) || DBR
       end
 
       # Minimum de badges selon la catégorie (CONFIG min_badges_*), v1.3.0
-      def self.minBadges(sp)
-        key = if DBRejuvenating.restricted?(sp) || DBRejuvenating::HEAVY_LEGENDS.include?(sp) then :min_badges_restricted
-              elsif DBRejuvenating::ONE_POINT_LEGENDS.include?(sp) then :min_badges_ub_paradox
-              else :min_badges_legendary
-              end
-        return DBRejuvenating.cfg(key).to_i
+      # Total des stats de base (forme 0), lu dans les données du jeu
+      def self.basePower(sp)
+        return ($cache.pkmn[sp][0].BaseStats.sum rescue 600).to_i
       end
 
-      # Chaque condition d'origine reçoit le minimum de badges (jamais plus tôt que le jeu)
+      # v1.3.3 : minimum de badges selon la puissance (voir CONFIG min_badges_by_power).
+      # Les Restreints (Cosmog, Calyrex, Terapagos compris : ils deviennent aussi forts
+      # que les autres) et Arceus ont leur propre minimum.
+      def self.minBadges(sp)
+        return DBRejuvenating.cfg(:min_badges_arceus).to_i if DBRejuvenating::HEAVY_LEGENDS.include?(sp)
+        return DBRejuvenating.cfg(:min_badges_restricted).to_i if DBRejuvenating.restricted?(sp)
+        pw = basePower(sp)
+        step = (DBRejuvenating.cfg(:min_badges_by_power) || []).find { |min, _| pw >= min.to_i }
+        return step ? step[1].to_i : 0
+      end
+
+      # Chaque condition d'origine reçoit le minimum de badges (jamais plus tôt que le jeu).
+      # v1.3.2 : on FUSIONNE avec les badges déjà demandés par la condition (on garde le
+      # plus grand nombre) au lieu d'ajouter une 2e exigence : "15 badges" et non
+      # "15 badges ET 11 badges". Même effet en jeu, texte cohérent.
       def self.withFloor(sp, cond)
         n = minBadges(sp)
         return cond if n <= 0
-        return cond.map { |c| [:all, [c, [:badges, n]]] }
+        return cond.map do |c|
+          parts = c[0] == :all ? c[1].dup : [c]
+          need = ([n] + parts.select { |x| x[0] == :badges }.map { |x| x[1].to_i }).max
+          parts = parts.reject { |x| x[0] == :badges } + [[:badges, need]]
+          parts.length == 1 ? parts[0] : [:all, parts]
+        end
       end
 
       def self.progressionGifts

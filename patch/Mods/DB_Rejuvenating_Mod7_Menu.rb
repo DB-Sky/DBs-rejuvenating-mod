@@ -11,6 +11,7 @@
 #   Pokémon >       Second starter, Legendary unlocks, Bonds & team budget
 #   Items >         Candy shop, Mega/Giga Stones, Z-Crystals, Form items
 #   Trials >        Guardian Trials, Ultimate Trial, Trial record
+#   Hidden stats    (v1.3.2 : Karma, relations, réputation... lecture seule, Module 10)
 #   My progress     (chiffres actuels : chapitre, plafond, tickets, objets adverses)
 #   Close
 # "My progress" = VOS chiffres en ce moment ; "Guide" = COMMENT marchent les règles.
@@ -296,7 +297,7 @@ if defined?(DBRejuvenating) && defined?(MenuHandlers)
         pct = DBRejuvenating.cfg(:wild_disobey_percent).to_i
         return [
           [:menu, _INTL("How this menu works"), [
-            _INTL("Guide: explains how every rule of the mod works.\nMy progress: shows YOUR numbers right now (chapter, level cap, tickets, candy prices, enemy battle items)."),
+            _INTL("Guide: explains how every rule of the mod works.\nMy progress: shows YOUR numbers right now (chapter, level cap, tickets, candy prices, enemy battle items).\nHidden stats: values the game itself keeps hidden (Karma, relationships...)."),
             _INTL("Pokémon: get your second starter, claim legendaries (new ones or ones you missed), and check their bond and team budget.\nItems: candy shop, Mega/Giga Stones, Z-Crystals and form items.\nTrials: Guardian Trials, Ultimate Trial, and the record of all your trials."),
             _INTL("Guide pages you have not read yet are shown in yellow. The Guide stays marked (NEW) until you have read all of them.\nWhen an update changes a page, it turns yellow again. The Changelog (at the end) lists what changed."),
             _INTL("Nothing in this mod can block the story: every rule only affects what the mod itself gives you.\nThis menu only opens from the Pause menu, never during an event."),
@@ -311,7 +312,9 @@ if defined?(DBRejuvenating) && defined?(MenuHandlers)
             _INTL("Pokémon > Legendary unlocks lists the legendaries, mythicals, Ultra Beasts and Paradox Pokémon that the base game never lets you get."),
             _INTL("Each one has a tag:\n[locked] its condition is not met yet (select it to see the condition)\n[TRIAL] win its Guardian Trial first\n[no ticket] you need a ticket\n[READY] you can claim it now\n[received] already claimed"),
             _INTL("Conditions follow each legendary's story: meeting it in a battle, owning related Pokémon, beating a related trainer, or finishing a special quest."),
-            _INTL("Every legendary also needs a minimum number of badges, matched to when the game itself gives legendaries:\n- Restricted legendaries and Arceus: 11 badges\n- other legendaries and mythicals: 6 badges\n- Ultra Beasts and Paradox Pokémon: 8 badges"),
+            _INTL("No legendary can be claimed before a minimum number of badges, based on its power (total base stats):\n- under 570: 4 badges\n- 570 to 579: 6\n- 580 to 599: 7\n- 600 to 669: 8\n- 670 and more: 10"),
+            _INTL("Restricted legendaries (Kyogre, Zacian, Cosmog...): 10 badges.\nArceus, the strongest: 12 badges.\nSo the weaker ones come first and the strongest ones later: a few new ones at each step of the story."),
+            _INTL("Some legendaries ask for MORE badges than that minimum (for example Miraidon: 11).\nThe condition you see when you select a legendary is always its full, real requirement: it already includes the minimum."),
             _INTL("Claiming a legendary costs 1 ticket.\nIt arrives at your current level cap, so it follows the normal level rules."),
           ]],
           [:missed, _INTL("Pokémon: missed legendaries"), [
@@ -379,7 +382,16 @@ if defined?(DBRejuvenating) && defined?(MenuHandlers)
             _INTL("This is off in Story mode and with the \"noitems\" password.\nThe current number is shown in My progress."),
             _INTL("Boss kit (Normal mode): a Gym Leader, Elite Four member or Champion who has NO healing item in the base game gets 2 healing items, a Full Heal and 2 X items (X Speed, plus X Attack or X Sp. Atk, matching its team).\nFrom 15 badges, these X items are the game's stronger \"3\" versions (+3 stages).\nThis is off in Story mode and with \"noitems\"."),
           ]],
+          [:hidden, _INTL("Hidden stats"), [
+            _INTL("Hidden stats shows values the game keeps hidden. It only READS them: it never changes your game."),
+            _INTL("Karma: goes up with good actions and down with bad ones. Some story scenes check it.\nGrand Dream City reputation, and the friendship of the Espurr and Growlithe from sidequests, are shown with it."),
+            _INTL("Relationships: your points with each character (only the ones that are not 0).\nThey change with your choices in conversations, and some scenes check them."),
+            _INTL("Party: each Pokémon's exact friendship (0 to 255; the bond tiers use it) and its Hidden Power type.\nIn Rejuvenation, the Hidden Power type comes from a hidden ID, not from IVs.\nIVs and EVs are already on the game's Summary screen."),
+          ]],
           [:changelog, _INTL("Changelog (v{1})", DBRejuvenating::PATCH_VERSION), [
+            _INTL("v1.3.3:\n- Legendaries now unlock step by step, by power: 4 badges (under 570 stats), 6 (570+), 7 (580+), 8 (600+), 10 (670+ and Restricted), 12 (Arceus).\nWeaker ones come early, strong ones later: no more rush in the middle of the game."),
+            _INTL("v1.3.2:\n- Legendaries come earlier: minimum 4 badges (was 6), 5 for Ultra Beasts/Paradox (was 8), 8 for Restricted and Arceus (was 11). Story unlocks are 3-4 badges earlier too."),
+            _INTL("v1.3.2 (menus):\n- New menu: Hidden stats (Karma, relationships, Grand Dream City reputation, exact friendship, Hidden Power type).\n- Unlock conditions now show ONE badge number: the real requirement (before, some showed two, like \"15 badges AND 11 badges\").\n- Clearer condition texts (no repeated names)."),
             _INTL("v1.3.1 (stable, ready to share):\n- Arceus costs 3 points (2 when Bonded) and needs 11 badges, like a Restricted legendary.\n- Red/Blue Orb, Rusted Sword/Shield and Prison Bottle need that legendary at the Loyal bond tier, like its Mega Stone."),
             _INTL("v1.3.1 (battles):\n- Enemy extra items are more varied (potion, Full Heal, X Defense or X Sp. Def) and capped: 3 per trainer, 5 per boss.\n- A 600+ stat legendary used before 12 badges counts 1 extra point for enemy items.\n- Boss kit: + Full Heal; from 15 badges its X items are the \"3\" versions."),
             _INTL("v1.3.0:\n- Legendaries now come at the same pace as in the game: minimum 11 badges for Restricted ones, 6 for other legendaries and mythicals, 8 for Ultra Beasts and Paradox.\n- Lugia can now be unlocked (own Articuno, Zapdos and Moltres).\n- Eternal Floette learns Light of Ruin at the Trusting bond tier instead of knowing it from the start."),
